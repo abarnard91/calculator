@@ -62,7 +62,12 @@ Key.prototype ={
           if(symbol == 'x'){total = firstInt*secondInt}
           if(symbol == '/'){total = firstInt/secondInt}
           outputBar.textContent=(total)
+          
           console.log(total)
+          secondNumber=[];
+          firstInt=0;
+          secondInt=0;
+          numberSwitch=false;
         	}
        }
 		},
