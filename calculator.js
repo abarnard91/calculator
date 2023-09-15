@@ -24,24 +24,28 @@ Key.prototype ={
     if (this.value == '+'){
           firstInt=Number(firstNumber.join(""))
           console.log(firstInt);
+          symbol=this.value
           firstNumber=[];
           numberSwitch=true;
     			}
      if (this.value == '-'){
      			firstInt=Number(firstNumber.join(""))
           console.log(firstInt);
+          symbol=this.value
           firstNumber=[];
           numberSwitch=true;
     			}
       if (this.value == 'x'){
           firstInt=Number(firstNumber.join(""))
           console.log(firstInt);
+          symbol=this.value
           firstNumber=[];
           numberSwitch=true;
     			}
        if (this.value =='/'){
        		firstInt=Number(firstNumber.join(""))
           console.log(firstInt);
+          symbol=this.value
           firstNumber=[];
           numberSwitch=true;
     			}
@@ -53,7 +57,12 @@ Key.prototype ={
         }
         if (this.value == '='){
         	secondInt=Number(secondNumber.join(""));
-          total=firstInt
+          if(symbol=='+'){total=firstInt+secondInt}
+          if(symbol == '-'){total=firstInt-secondInt}
+          if(symbol == 'x'){total = firstInt*secondInt}
+          if(symbol == '/'){total = firstInt/secondInt}
+          outputBar.textContent=(total)
+          console.log(total)
         	}
        }
 		},
