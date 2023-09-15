@@ -3,13 +3,59 @@ function Key(button,element,value){
   this.element= element;
   this.value= value;
 }
-
+let firstNumber=[];
+let secondNumber =[];
+let numberSwitch=false;
 Key.prototype ={
 	numberOutput: function (){
-		(this.element).onclick=()=>outputBar.textContent+=this.value
-		},
+		(this.element).onclick=()=>{
+    outputBar.textContent+=this.value;
+    if (numberSwitch==false){
+      firstNumber.push(this.value);
+      console.log(`first number is ${firstNumber}`);
+      }
+    else secondNumber.push(this.value);
+    console.log(`second number is ${secondNumber}`);
+    }
+  }, 
   symbolOutput: function (){
-		(this.element).onclick=()=>outputBar.textContent=this.value
+		(this.element).onclick=()=>{
+    outputBar.textContent=this.value;
+    if (this.value == '+'){
+          firstInt=Number(firstNumber.join(""))
+          console.log(firstInt);
+          firstNumber=[];
+          numberSwitch=true;
+    			}
+     if (this.value == '-'){
+     			firstInt=Number(firstNumber.join(""))
+          console.log(firstInt);
+          firstNumber=[];
+          numberSwitch=true;
+    			}
+      if (this.value == 'x'){
+          firstInt=Number(firstNumber.join(""))
+          console.log(firstInt);
+          firstNumber=[];
+          numberSwitch=true;
+    			}
+       if (this.value =='/'){
+       		firstInt=Number(firstNumber.join(""))
+          console.log(firstInt);
+          firstNumber=[];
+          numberSwitch=true;
+    			}
+        if (this.value == ' '){
+        	firstNumber= [];
+          secondNumber=[];
+          firstInt=0;
+          secondInt=0;
+        }
+        if (this.value == '='){
+        	secondInt=Number(secondNumber.join(""));
+          total=firstInt
+        	}
+       }
 		},
 }
 const one= new Key('one',document.getElementById("1-button"),1);
@@ -44,7 +90,7 @@ const multiply= new Key('multiply',document.getElementById("multiply-button"),'x
 multiply.symbolOutput();
 const divide= new Key('divide',document.getElementById("division-button"),'/');
 divide.symbolOutput();
-const enter= new Key('enter', document.getElementById('enter-button'), 'You Hit Enter')
+const enter= new Key('enter', document.getElementById('enter-button'), '=')
 enter.symbolOutput();
 
 const outputBar= document.getElementById('output-input');
