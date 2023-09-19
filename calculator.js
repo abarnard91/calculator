@@ -22,6 +22,12 @@ Key.prototype ={
     		console.log(`second number is ${secondNumber}`);
     }
   }, 
+  
+  //still need to be able to do chaining ie 2+3*2=8
+  //make a counting variable that increments by 1 when +-x/ pressed
+  //create a new array based on that increment that stores the next number
+  //create an array based on symbol thats pressed ie 2+3*2 creates array0=[2], array[1]=3, array[2]=2 symbol array=[+,x]
+  //somehow transform that mix of arrays to an equation to do on enter.
   symbolOutput: function (){//function for when a symbole is picked
 		(this.element).onclick=()=>{
     outputBar.textContent=this.value;//output bar clears and only symbol is shown until 2nd number started
