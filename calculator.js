@@ -5,21 +5,24 @@ function Key(button,element,value){ //creating object values
 }
 //list of variables in Key function in their empty state
 let firstNumber=[];
-let secondNumber =[];
+let newNumber =[];
 let numberSwitch=false;
 let firstInt=0;
-let secondInt=0;
+let newInt=[];
 let total= 0;
+let arrayCounter=0;
+
+
 Key.prototype ={
 	numberOutput: function (){
 		(this.element).onclick=()=>{ //number button is clicked
     outputBar.textContent+=this.value;//the number is appended to the end of the chain of number in output bar
-    if (numberSwitch==false){//this denotes if this is the number before or after a symbole is picked 
+    if (arrayCounter==0){//this denotes if this is the number before or after a symbole is picked 
       firstNumber.push(this.value);
-      console.log(`first number is ${firstNumber}`);
+      console.log(`first number is ${firstNumber}`,arrayCounter);
       }
-    else secondNumber.push(this.value);
-    		console.log(`second number is ${secondNumber}`);
+    else {newNumber.push(this.value);
+    		console.log(`new number is ${newNumber}`, arrayCounter,newInt);}
     }
   }, 
   
@@ -31,45 +34,77 @@ Key.prototype ={
   symbolOutput: function (){//function for when a symbole is picked
 		(this.element).onclick=()=>{
     outputBar.textContent=this.value;//output bar clears and only symbol is shown until 2nd number started
-    if (this.value == '+'||this.value == '-'||this.value == 'x'||this.value =='/'){
-    	if(firstInt==0){//if symbol is not enter or clear and first number hasn't been established
-          firstInt=Number(firstNumber.join(""))//the string of numbers becomes an integer from the array
-          console.log(`firstInt=${firstInt} secondInt= ${secondInt}`);//debugging section
-          symbol=this.value//symbol variable becomes == to the symbol that was chosen
+    if (this.value == '+'||this.value == '-'||this.value =='/'){
+    	if(newInt==0){//if symbol is not enter or clear and first number hasn't been established
+          newInt[arrayCounter]=Number(firstNumber.join(""))//the string of numbers becomes an integer from the array          symbol=this.value//symbol variable becomes == to the symbol that was chosen
           firstNumber=[];// firstNubmer array reset to empty 
-          numberSwitch=true;//switch turned on to make new number buttons chain to the 2nd number
+          arrayCounter++;
+          newInt[arrayCounter]=this.value
+          arrayCounter++;
+          newNumber=[]
+          console.log(newInt)
           }
-       if(firstInt!=0||secondInt!=0){//for when enter has been pressed
-       	  secondInt=Number(secondNumber.join(""))//2nd integer is made from 2nd number array
-          console.log(`firstInt=${firstInt} secondInt= ${secondInt} numberSwitch is ${numberSwitch} `);
+       if(newNumber.length>0){//for when enter has been pressed
+       	  newInt[arrayCounter]=Number(newNumber.join(""))//2nd integer is made from 2nd number array
+          console.log(` `);
           symbol=this.value// used if doing math on total
-          secondNumber=[];//secondNumber array reset
-          
+          //secondNumber=[];//secondNumber array reset
+          arrayCounter++;
+          newInt[arrayCounter]=this.value
+          arrayCounter++;
+          newNumber=[]
+          console.log(newInt)
     			}
-       }     
+       }  
+      if( this.value == 'x'){
+         if(firstInt==0){//if symbol is not enter or clear and first number hasn't been established
+            newInt[arrayCounter]=Number(firstNumber.join(""))//the string of numbers becomes an integer from the array          symbol=this.value//symbol variable becomes == to the symbol that was chosen
+            firstNumber=[];// firstNubmer array reset to empty 
+            arrayCounter++;
+            newInt[arrayCounter]='*'
+            arrayCounter++
+            newNumber=[]
+            }
+         if(newNumber.length>0){//for when enter has been pressed
+            newInt[arrayCounter]=Number(newNumber.join(""))//2nd integer is made from 2nd number array
+            console.log(` `);
+            symbol=this.value// used if doing math on total
+            //secondNumber=[];//secondNumber array reset
+            arrayCounter++;
+            newInt[arrayCounter]='*'
+            arrayCounter++;
+            newNumber=[]
+            }
+        }
         if (this.value == ' '){//clear button resets everything to beginning values again
         	firstNumber= [];
-          secondNumber=[];
-          firstInt=0;
-          secondInt=0;
-          numberSwitch=false;
+          newNumber=[];
+          newInt=[];
+          arrayCounter=0;
         }
         if (this.value == '='){// for enter
         
-        	if(numberSwitch==true){	secondInt=Number(secondNumber.join(""));}//used if it hasn't happened yet 
+        	//if(arrayCounter==1){	newInt=Number(newNumber[arrayCounter].join(""));}//used if it hasn't happened yet 
           //actual math turning symbol into what is being performed
-          if(symbol == '+'){total=firstInt+secondInt}
-          if(symbol == '-'){total=firstInt-secondInt}
-          if(symbol == 'x'){total = firstInt*secondInt}
-          if(symbol == '/'){total = firstInt/secondInt}
+          newInt[arrayCounter]=Number(newNumber.join(""))
+					total=newInt.join('')
+          
+          console.log(total)
+          for(let i=0;i<newInt.length; i++){
+          	console.log(newInt,'for loop',i)
+        	if (newInt[i]=='*'){ return total+=(newInt[i-1]*newInt[i+1])}
+            if (newInt[i]=='/'){return total+=(newInt[i-1]/newInt[i+1])}
+            if (newInt[i]=='+'){return total+=(newInt[i-1]+newInt[i+1])}
+            if (newInt[i]=='-'){return total+=(newInt[i-1]-newInt[i+1])}
+            return total;
+          }
           outputBar.textContent=(total)//total shown in output bar
           
-          console.log(total, symbol)
+          console.log(total)
           
           secondNumber=[];//secondnumber array reset again probably redundant
           firstInt=total;//if not being cleared, math performed on total w/ new button clicks forming 2nd number
-          secondInt=0;
-          symbol =''
+          newInt=[];
           
         	}
        }
@@ -82,6 +117,35 @@ two.numberOutput();
 const three= new Key('three',document.getElementById("3-button"),3);
 three.numberOutput();
 const four= new Key('four',document.getElementById("4-button"),4);
+four.numberOutput();
+const five= new Key('five',document.getElementById("5-button"),5);
+five.numberOutput();
+const six= new Key('six',document.getElementById("6-button"),6);
+six.numberOutput();
+const seven= new Key('seven',document.getElementById("7-button"),7);
+seven.numberOutput();
+const eight= new Key('eight',document.getElementById("8-button"),8);
+eight.numberOutput();
+const nine= new Key('nine',document.getElementById("9-button"),9);
+nine.numberOutput();
+const zero= new Key('zero',document.getElementById("0-button"),0);
+zero.numberOutput();
+const decimal= new Key('decimal',document.getElementById("decimal-button"), '.');
+decimal.numberOutput();
+const clear= new Key('clear',document.getElementById("clear-button"),' ');
+clear.symbolOutput();
+const plus= new Key('plus',document.getElementById("plus-button"),'+');
+plus.symbolOutput();
+const minus= new Key('minus',document.getElementById("minus-button"),'-');
+minus.symbolOutput();
+const multiply= new Key('multiply',document.getElementById("multiply-button"),'x');
+multiply.symbolOutput();
+const divide= new Key('divide',document.getElementById("division-button"),'/');
+divide.symbolOutput();
+const enter= new Key('enter', document.getElementById('enter-button'), '=')
+enter.symbolOutput();
+
+const outputBar= document.getElementById('output-input');
 four.numberOutput();
 const five= new Key('five',document.getElementById("5-button"),5);
 five.numberOutput();
