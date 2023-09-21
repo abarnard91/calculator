@@ -87,20 +87,25 @@ Key.prototype ={
         	//if(arrayCounter==1){	newInt=Number(newNumber[arrayCounter].join(""));}//used if it hasn't happened yet 
           //actual math turning symbol into what is being performed
           newInt[arrayCounter]=Number(newNumber.join(""))
-					total=newInt.join('')
+					//total=newInt.join('')
           
-          console.log(total)
+          console.log(total)//this way works but doesn't follow order of operations
+          //maybe do for loop that if it finds a multiply or divide only performs those then splices array with the product
+          //and removes the original numbers then repeat for loop looking for plus and minus
           for(let i=0;i<newInt.length; i++){
-          	console.log(newInt,'for loop',i)
-        	if (newInt[i]=='*'){ return total+=(newInt[i-1]*newInt[i+1])}
-            if (newInt[i]=='/'){return total+=(newInt[i-1]/newInt[i+1])}
-            if (newInt[i]=='+'){return total+=(newInt[i-1]+newInt[i+1])}
-            if (newInt[i]=='-'){return total+=(newInt[i-1]-newInt[i+1])}
-            return total;
+          	console.log(newInt, newInt.length,'for loop',i)
+            if (total==0){total+=newInt[0]}
+        	  if (newInt[i]=='*'){ total*=newInt[i+1]; i++}
+            if (newInt[i]=='/'){ total/=newInt[i+1]; i++}
+            if (newInt[i]=='+'){ total+=newInt[i+1]; i++}
+            if (newInt[i]=='-'){ total-=newInt[i+1]; i++}
+            else {console.log('I dont fucking knoW',i , newInt[i])}
+            console.log(total)
+            }
           }
           outputBar.textContent=(total)//total shown in output bar
           
-          console.log(total)
+          console.log(`this is ${total}`)
           
           secondNumber=[];//secondnumber array reset again probably redundant
           firstInt=total;//if not being cleared, math performed on total w/ new button clicks forming 2nd number
@@ -117,35 +122,6 @@ two.numberOutput();
 const three= new Key('three',document.getElementById("3-button"),3);
 three.numberOutput();
 const four= new Key('four',document.getElementById("4-button"),4);
-four.numberOutput();
-const five= new Key('five',document.getElementById("5-button"),5);
-five.numberOutput();
-const six= new Key('six',document.getElementById("6-button"),6);
-six.numberOutput();
-const seven= new Key('seven',document.getElementById("7-button"),7);
-seven.numberOutput();
-const eight= new Key('eight',document.getElementById("8-button"),8);
-eight.numberOutput();
-const nine= new Key('nine',document.getElementById("9-button"),9);
-nine.numberOutput();
-const zero= new Key('zero',document.getElementById("0-button"),0);
-zero.numberOutput();
-const decimal= new Key('decimal',document.getElementById("decimal-button"), '.');
-decimal.numberOutput();
-const clear= new Key('clear',document.getElementById("clear-button"),' ');
-clear.symbolOutput();
-const plus= new Key('plus',document.getElementById("plus-button"),'+');
-plus.symbolOutput();
-const minus= new Key('minus',document.getElementById("minus-button"),'-');
-minus.symbolOutput();
-const multiply= new Key('multiply',document.getElementById("multiply-button"),'x');
-multiply.symbolOutput();
-const divide= new Key('divide',document.getElementById("division-button"),'/');
-divide.symbolOutput();
-const enter= new Key('enter', document.getElementById('enter-button'), '=')
-enter.symbolOutput();
-
-const outputBar= document.getElementById('output-input');
 four.numberOutput();
 const five= new Key('five',document.getElementById("5-button"),5);
 five.numberOutput();
