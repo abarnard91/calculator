@@ -16,6 +16,7 @@ let arrayCounter=0;
 Key.prototype ={
 	numberOutput: function (){
 		(this.element).onclick=()=>{ //number button is clicked
+    outputBar.textContent='';
     outputBar.textContent+=this.value;//the number is appended to the end of the chain of number in output bar
     if (arrayCounter==0){//this denotes if this is the number before or after a symbole is picked 
       firstNumber.push(this.value);
@@ -26,15 +27,10 @@ Key.prototype ={
     }
   }, 
   
-  //still need to be able to do chaining ie 2+3*2=8
-  //make a counting variable that increments by 1 when +-x/ pressed
-  //create a new array based on that increment that stores the next number
-  //create an array based on symbol thats pressed ie 2+3*2 creates array0=[2], array[1]=3, array[2]=2 symbol array=[+,x]
-  //somehow transform that mix of arrays to an equation to do on enter.
-  symbolOutput: function (){//function for when a symbole is picked
+  symbolOutput: function (){//function for when a symbol is picked
 		(this.element).onclick=()=>{
     outputBar.textContent=this.value;//output bar clears and only symbol is shown until 2nd number started
-    if (this.value == '+'||this.value == '-'||this.value =='/'){
+    if (this.value == '+'||this.value == '-'||this.value =='/'||this.value=='x'){
     	if(newInt==0){//if symbol is not enter or clear and first number hasn't been established
           newInt[arrayCounter]=Number(firstNumber.join(""))//the string of numbers becomes an integer from the array          symbol=this.value//symbol variable becomes == to the symbol that was chosen
           firstNumber=[];// firstNubmer array reset to empty 
@@ -46,7 +42,7 @@ Key.prototype ={
           }
        if(newNumber.length>0){//for when enter has been pressed
        	  newInt[arrayCounter]=Number(newNumber.join(""))//2nd integer is made from 2nd number array
-          console.log(` `);
+
           symbol=this.value// used if doing math on total
           //secondNumber=[];//secondNumber array reset
           arrayCounter++;
@@ -56,65 +52,76 @@ Key.prototype ={
           console.log(newInt)
     			}
        }  
-      if( this.value == 'x'){
-         if(firstInt==0){//if symbol is not enter or clear and first number hasn't been established
-            newInt[arrayCounter]=Number(firstNumber.join(""))//the string of numbers becomes an integer from the array          symbol=this.value//symbol variable becomes == to the symbol that was chosen
-            firstNumber=[];// firstNubmer array reset to empty 
-            arrayCounter++;
-            newInt[arrayCounter]='*'
-            arrayCounter++
-            newNumber=[]
-            }
-         if(newNumber.length>0){//for when enter has been pressed
-            newInt[arrayCounter]=Number(newNumber.join(""))//2nd integer is made from 2nd number array
-            console.log(` `);
-            symbol=this.value// used if doing math on total
-            //secondNumber=[];//secondNumber array reset
-            arrayCounter++;
-            newInt[arrayCounter]='*'
-            arrayCounter++;
-            newNumber=[]
-            }
-        }
-        if (this.value == ' '){//clear button resets everything to beginning values again
-        	firstNumber= [];
-          newNumber=[];
+    if (this.value == ' '){//clear button resets everything to beginning values again
+        	firstNumber=[];
+          newNumber =[];
+          numberSwitch=false;
+          firstInt=0;
           newInt=[];
-          arrayCounter=0;
+          total= 0;
+          arrayCounter=0
         }
-        if (this.value == '='){// for enter
-        
-        	//if(arrayCounter==1){	newInt=Number(newNumber[arrayCounter].join(""));}//used if it hasn't happened yet 
+    if (this.value == '='){// for enter
+
           //actual math turning symbol into what is being performed
           newInt[arrayCounter]=Number(newNumber.join(""))
 					//total=newInt.join('')
-          
-          console.log(total)//this way works but doesn't follow order of operations
-          //maybe do for loop that if it finds a multiply or divide only performs those then splices array with the product
-          //and removes the original numbers then repeat for loop looking for plus and minus
-          for(let i=0;i<newInt.length; i++){
-          	console.log(newInt, newInt.length,'for loop',i)
-            if (total==0){total+=newInt[0]}
-        	  if (newInt[i]=='*'){ total*=newInt[i+1]; i++}
-            if (newInt[i]=='/'){ total/=newInt[i+1]; i++}
-            if (newInt[i]=='+'){ total+=newInt[i+1]; i++}
-            if (newInt[i]=='-'){ total-=newInt[i+1]; i++}
-            else {console.log('I dont fucking knoW',i , newInt[i])}
-            console.log(total)
+          let total=0;
+          console.log('Go into the Loop')
+          //while (newInt.length>1){
+          console.log("ENTERING THE LOOP")
+          //multiply
+            for(let i=0;i<newInt.length; i++){
+              if(newInt[i]=='x'){
+                console.log(`newInt[i-1] is ${newInt[i-1]} and newInt[I+1] is ${newInt[i+1]}`)
+                total=newInt[i-1]*newInt[i+1];
+                newInt.splice((i-1),3,total);
+              }
+              else {console.log(`array value is ${newInt[i]} and i is ${i}`)}
+            
+              console.log(newInt)}
+          //divide   
+            for(let i=0;i<newInt.length; i++){
+              if(newInt[i]=='/'){
+                console.log(`newInt[i-1] is ${newInt[i-1]} and newInt[I+1] is ${newInt[i+1]}`)
+                total=newInt[i-1]/newInt[i+1];
+                newInt.splice((i-1),3,total);}
+              else {console.log(`array value is ${newInt[i]} and i is ${i}`)}
+              
+              console.log(newInt)}
+   
+          //addition  
+            for(let i=0;i<newInt.length; i++){
+            if(newInt[i]=='+'){
+              console.log(`newInt[i-1] is ${newInt[i-1]} and newInt[I+1] is ${newInt[i+1]}`)
+              total=newInt[i-1]+newInt[i+1];
+              newInt.splice((i-1),3,total);
             }
-          }
-          outputBar.textContent=(total)//total shown in output bar
-          
-          console.log(`this is ${total}`)
-          
-          secondNumber=[];//secondnumber array reset again probably redundant
-          firstInt=total;//if not being cleared, math performed on total w/ new button clicks forming 2nd number
+            else {console.log(`array value is ${newInt[i]} and i is ${i}`)}
+            
+            console.log(newInt)
+            }
+          //subtract
+          for(let i=0;i<newInt.length; i++){
+            if(newInt[i]=='-'){
+              console.log(`newInt[i-1] is ${newInt[i-1]} and newInt[I+1] is ${newInt[i+1]}`)
+              total=newInt[i-1]-newInt[i+1];
+              newInt.splice((i-1),3,total);
+            }
+            else {console.log(`array value is ${newInt[i]} and i is ${i}`)}
+            console.log( newInt) }
+          //if(newInt.values()==undefined){break}
+          //}
+          total=Number(newInt.join(''))
+          outputBar.textContent=total;
+          firstNumber=[total];//makes firstnumber the total for chaining arithmetic (aka 2=+3=5+5=10)
+          newNumber=[];//resets 2nd (or nth) number for new math 
           newInt=[];
           
-        	}
-       }
-		},
-}
+      }
+    }
+  }
+};
 const one= new Key('one',document.getElementById("1-button"),1);
 one.numberOutput();
 const two= new Key('two',document.getElementById("2-button"),2);
