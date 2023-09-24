@@ -11,20 +11,26 @@ let firstInt=0;
 let newInt=[];
 let total= 0;
 let arrayCounter=0;
+let symbol='';
 
 
 Key.prototype ={
 	numberOutput: function (){
 		(this.element).onclick=()=>{ //number button is clicked
-    outputBar.textContent='';
-    outputBar.textContent+=this.value;//the number is appended to the end of the chain of number in output bar
-    if (arrayCounter==0){//this denotes if this is the number before or after a symbole is picked 
-      firstNumber.push(this.value);
-      console.log(`first number is ${firstNumber}`,arrayCounter);
+      if(symbol=="="){
+        outputBar.textContent=''; 
+        symbol=''
+        firstNumber=[0];
+        arrayCounter=0;
       }
-    else {newNumber.push(this.value);
-    		console.log(`new number is ${newNumber}`, arrayCounter,newInt);}
-    }
+      outputBar.textContent+=this.value;//the number is appended to the end of the chain of number in output bar
+      if (arrayCounter==0){//this denotes if this is the number before or after a symbole is picked 
+        firstNumber.push(this.value);
+        console.log(`first number is ${firstNumber}`,arrayCounter);
+        }
+      else {newNumber.push(this.value);
+          console.log(`new number is ${newNumber}`, arrayCounter,newInt);}
+      }
   }, 
   
   symbolOutput: function (){//function for when a symbol is picked
@@ -60,6 +66,7 @@ Key.prototype ={
           newInt=[];
           total= 0;
           arrayCounter=0
+          sybol='';
         }
     if (this.value == '='){// for enter
 
@@ -117,9 +124,11 @@ Key.prototype ={
           firstNumber=[total];//makes firstnumber the total for chaining arithmetic (aka 2=+3=5+5=10)
           newNumber=[];//resets 2nd (or nth) number for new math 
           newInt=[];
-          
-      }
+          arrayCounter=1;
+          symbol=this.value;
+          }
     }
+
   }
 };
 const one= new Key('one',document.getElementById("1-button"),1);
