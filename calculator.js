@@ -17,12 +17,7 @@ let symbol='';
 Key.prototype ={
 	numberOutput: function (){
 		(this.element).onclick=()=>{ //number button is clicked
-      if(symbol=="="){
-        outputBar.textContent=''; 
-        symbol=''
-        firstNumber=[0];
-        arrayCounter=0;
-      }
+ 
       outputBar.textContent+=this.value;//the number is appended to the end of the chain of number in output bar
       if (arrayCounter==0){//this denotes if this is the number before or after a symbole is picked 
         firstNumber.push(this.value);
@@ -34,17 +29,20 @@ Key.prototype ={
   }, 
   
   symbolOutput: function (){//function for when a symbol is picked
+  	
 		(this.element).onclick=()=>{
+    
     outputBar.textContent=this.value;//output bar clears and only symbol is shown until 2nd number started
     if (this.value == '+'||this.value == '-'||this.value =='/'||this.value=='x'){
+    	
     	if(newInt==0){//if symbol is not enter or clear and first number hasn't been established
-          newInt[arrayCounter]=Number(firstNumber.join(""))//the string of numbers becomes an integer from the array          symbol=this.value//symbol variable becomes == to the symbol that was chosen
+          newInt[arrayCounter]=Number(firstNumber.join(""))//the string of numbers becomes an integer from the array          
           firstNumber=[];// firstNubmer array reset to empty 
           arrayCounter++;
           newInt[arrayCounter]=this.value
           arrayCounter++;
           newNumber=[]
-          console.log(newInt)
+          console.log(`new int is ${newInt}`)
           }
        if(newNumber.length>0){//for when enter has been pressed
        	  newInt[arrayCounter]=Number(newNumber.join(""))//2nd integer is made from 2nd number array
@@ -59,24 +57,23 @@ Key.prototype ={
     			}
        }  
     if (this.value == ' '){//clear button resets everything to beginning values again
-        	firstNumber=[];
-          newNumber =[];
-          numberSwitch=false;
-          firstInt=0;
-          newInt=[];
-          total= 0;
-          arrayCounter=0
-          sybol='';
+      firstNumber=[];
+      newNumber =[];
+      numberSwitch=false;
+      firstInt=0;
+      newInt=[];
+      total= 0;
+      arrayCounter=0;
+      symbol='';
         }
     if (this.value == '='){// for enter
 
           //actual math turning symbol into what is being performed
+          console.log(`newInt[arrayCounter] is ${newInt[arrayCounter]}`)
           newInt[arrayCounter]=Number(newNumber.join(""))
-					//total=newInt.join('')
+					
           let total=0;
-          console.log('Go into the Loop')
-          //while (newInt.length>1){
-          console.log("ENTERING THE LOOP")
+
           //multiply
             for(let i=0;i<newInt.length; i++){
               if(newInt[i]=='x'){
@@ -117,15 +114,16 @@ Key.prototype ={
             }
             else {console.log(`array value is ${newInt[i]} and i is ${i}`)}
             console.log( newInt) }
-          //if(newInt.values()==undefined){break}
-          //}
+          
+          
           total=Number(newInt.join(''))
           outputBar.textContent=total;
           firstNumber=[total];//makes firstnumber the total for chaining arithmetic (aka 2=+3=5+5=10)
           newNumber=[];//resets 2nd (or nth) number for new math 
           newInt=[];
-          arrayCounter=1;
+          arrayCounter=2;
           symbol=this.value;
+          console.log(`firstnumber is ${firstNumber} newInt is ${newInt}`)
           }
     }
 
